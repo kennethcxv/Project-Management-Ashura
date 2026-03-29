@@ -1,13 +1,11 @@
 import './App.css'
-import NavBar from './components/NavBar'
+import CreateTask from './components/CreateTask'
 
 function App() {
 
   return (
     <>
-      
-      <NavBar />
-      <p>Hello</p>      
+      <CreateTask />
     </>
   )
 }
