@@ -6,6 +6,8 @@ import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
     open:false,
+    addNewTaskArr:[],
+    commentArray:[],
 }
 
 const taskSlice = createSlice({
@@ -20,8 +22,19 @@ const taskSlice = createSlice({
         state.open = false
         console.log(state.open)
     },
+    addTaskAction:(state,action) => {
+      state.addNewTaskArr.push(action.payload)
+    },
+    deleteAction:(state,action) => {
+      state.addNewTaskArr = state.addNewTaskArr.filter((task) => {
+        return task.id !== action.payload
+      })
+    },
+    addCommentAction:(state,action) => {
+      state.commentArray.push(action.payload)
+    },
   }
 });
 
-export const {openAction,closeAction} = taskSlice.actions
+export const {openAction,closeAction,deleteAction,addTaskAction,addCommentAction} = taskSlice.actions
 export default taskSlice.reducer;

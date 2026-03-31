@@ -4,16 +4,15 @@ import { useDispatch, useSelector } from "react-redux";
 import DialogTitle from "@mui/material/DialogTitle";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import { closeAction } from "../redux/slices/taskSlice";
+import { closeAction, deleteAction, addTaskAction,addCommentAction } from "../redux/slices/taskSlice";
 import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
 import { useState } from "react";
+import { v4 as uuidv4 } from "uuid";
 
 const CreateTask = () => {
   const open = useSelector((state) => state.taskSlice.open);
-
-  const [AddNewTaskArr,setAddNewTaskArr] = useState([])
-  const [commentArray,setcommentArray] = useState([])
-    
+  const addNewTaskArr = useSelector((state) => state.taskSlice.addNewTaskArr)
+  const commentArray = useSelector((state) => state.taskSlice.commentArray)
 
   const [title,setTitle] = useState("")
   const [description,setDescription] = useState("")
@@ -21,28 +20,33 @@ const CreateTask = () => {
   const [subTask,setSubTask] = useState("")
   const [date,setDate] = useState("")
 
-    const newTask = {
-    title:title,
-    description:description,
-    subTask:subTask,
-    date:date,
-  }
-
   const dispatch = useDispatch();
 
   const handleCloseAction = () => {
     dispatch(closeAction());
   };
 
+  const handleDeleteAction = (taskId) => {      
+  dispatch(deleteAction(taskId));
+}
+
   const handleTaskSubmit = () => {
-    setAddNewTaskArr((prev) => [...prev,newTask])
-    setTitle("")
+    const newTask = {
+    id:uuidv4(),
+    title,
+    description,
+    subTask,
+    date,
+  }
+  dispatch(addTaskAction(newTask))
+
+  setTitle("")
     setDescription("")
     setSubTask("")
     setDate("")
   }
   const handleCreateComment = () => {
-    setcommentArray((prev) => [...prev,comment])
+    dispatch(addCommentAction(comment))
     setComment("")
   }
 
@@ -116,14 +120,17 @@ const CreateTask = () => {
         </Box>
       </Dialog>
       {
-      AddNewTaskArr.map((item) => {
+      addNewTaskArr.map((item) => {
         return (
+          <>
           <p>
             {item.title}
             {item.description}
             {item.subTask}
             {item.date}
           </p>
+          <Button variant="contained" onClick={() => handleDeleteAction(item.id)}>Delete</Button>
+          </>
         );
       })}
     </>
