@@ -7,6 +7,7 @@ import Button from "@mui/material/Button";
 import SortOutlinedIcon from "@mui/icons-material/SortOutlined";
 import { useDispatch } from "react-redux";
 import { openAction } from "../redux/slices/taskSlice";
+import { Link } from "react-router";
 
 // Lets have the logo on the left side. Then lets have a search bar, add Task, filter tasks on the right
 
@@ -18,13 +19,18 @@ const NavBar = () => {
   return (
     <>
       <AppBar position="static">
-        <Toolbar sx={{ display: "flex", backgroundColor: "lightgray" }}>
+        <Toolbar sx={{ display: "flex", backgroundColor: "#fcfcfc" }}>
           <Box
             component="img"
             src={AshuraLogo}
             alt="Logo"
             sx={{ width: "auto", height: "50px", cursor: "pointer" }}
           ></Box>
+          <Box sx={{ml:4, }}>
+          <Link className="text-black cursor-pointer text-[18px]" to="/tasks">
+            Tasks
+          </Link>          
+          </Box>
           <Box sx={{ flexGrow: 1 }} />
           <TextField
             label="Search Tasks"

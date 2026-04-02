@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import DialogTitle from "@mui/material/DialogTitle";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import { closeAction, deleteAction, addTaskAction,addCommentAction } from "../redux/slices/taskSlice";
+import { closeAction, addTaskAction,addCommentAction } from "../redux/slices/taskSlice";
 import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
 import { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
@@ -32,9 +32,7 @@ const CreateTask = () => {
     dispatch(closeAction());
   };
 
-  const handleDeleteAction = (taskId) => {      
-    dispatch(deleteAction(taskId));
-  }
+
 
   const handleTaskSubmit = () => {
     const newTask = {
@@ -147,14 +145,6 @@ const CreateTask = () => {
       addNewTaskArr.map((item) => {
         return (
           <div key={item.id}>
-          <p>
-            {item.title}
-            {item.description}
-            {item.subTask}
-            {item.date}
-            {item.priority}
-          </p>
-          <Button variant="contained" onClick={() => handleDeleteAction(item.id)}>Delete</Button>
           </div>
         );
       })}
