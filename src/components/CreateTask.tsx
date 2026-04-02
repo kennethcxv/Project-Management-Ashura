@@ -8,17 +8,23 @@ import { closeAction, deleteAction, addTaskAction,addCommentAction } from "../re
 import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
 import { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
+import MenuItem from "@mui/material/MenuItem";
+import Select from "@mui/material/Select";
+import InputLabel from "@mui/material/InputLabel";
+import FormControl from "@mui/material/FormControl";
+import Stack from "@mui/material/Stack";
+import Chip from "@mui/material/Chip";
 
 const CreateTask = () => {
   const open = useSelector((state) => state.taskSlice.open);
   const addNewTaskArr = useSelector((state) => state.taskSlice.addNewTaskArr)
   const commentArray = useSelector((state) => state.taskSlice.commentArray)
-
   const [title,setTitle] = useState("")
   const [description,setDescription] = useState("")
   const [comment,setComment] = useState("")
   const [subTask,setSubTask] = useState("")
   const [date,setDate] = useState("")
+  const [priority,setPriority] = useState("")
 
   const dispatch = useDispatch();
 
@@ -27,8 +33,8 @@ const CreateTask = () => {
   };
 
   const handleDeleteAction = (taskId) => {      
-  dispatch(deleteAction(taskId));
-}
+    dispatch(deleteAction(taskId));
+  }
 
   const handleTaskSubmit = () => {
     const newTask = {
@@ -37,6 +43,7 @@ const CreateTask = () => {
     description,
     subTask,
     date,
+    priority,
   }
   dispatch(addTaskAction(newTask))
 
@@ -44,6 +51,7 @@ const CreateTask = () => {
     setDescription("")
     setSubTask("")
     setDate("")
+    setPriority("")
   }
   const handleCreateComment = () => {
     dispatch(addCommentAction(comment))
@@ -92,8 +100,24 @@ const CreateTask = () => {
             value={subTask}
             onChange={(e) => setSubTask(e.target.value)}
           />
-          
           <TextField type="date" onChange={(e) => setDate(e.target.value)}/>
+          <FormControl fullWidth>
+          <InputLabel id="demo-simple-select-label">Priority</InputLabel>
+          <Select id="demo-simple-select-label" labelId="demo-simple-select-label" label ="priority" value={priority} onChange={(e) => setPriority(e.target.value)}>          
+            <MenuItem value="priority 1">Priority 1</MenuItem>
+            <MenuItem value="priority 2">Priority 2</MenuItem>
+            <MenuItem value="priority 3">Priority 3</MenuItem>
+          </Select>
+          </FormControl>
+          <Stack direction="row" sx={{cursor:"pointer"}}>
+            <Chip  label="Not Started"/>
+            <Chip label="In Progress"/>
+            <Chip label="Blocked"/>
+            <Chip label="On Hold"/>
+            <Chip label="Completed"/>
+            <Chip label="Cancelled"/>
+          </Stack>
+
           <Button type="submit" onClick={() => handleTaskSubmit()} variant="contained">
             Create Task
           </Button>
@@ -110,11 +134,11 @@ const CreateTask = () => {
             Comment
           </Button>
           
-          {commentArray.map((item) => {
+          {commentArray.map((item,i) => {
             return (
-              <>
+              <div key={i}>
                 <p>{item}</p>
-              </>
+              </div>
             );
           })}
         </Box>
@@ -122,15 +146,16 @@ const CreateTask = () => {
       {
       addNewTaskArr.map((item) => {
         return (
-          <>
+          <div key={item.id}>
           <p>
             {item.title}
             {item.description}
             {item.subTask}
             {item.date}
+            {item.priority}
           </p>
           <Button variant="contained" onClick={() => handleDeleteAction(item.id)}>Delete</Button>
-          </>
+          </div>
         );
       })}
     </>
