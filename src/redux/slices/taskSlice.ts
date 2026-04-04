@@ -33,6 +33,7 @@ const taskSlice = createSlice({
     addCommentAction:(state,action) => {
       state.commentArray.push(action.payload)
     },
+
   }
 });
 
