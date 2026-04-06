@@ -108,7 +108,7 @@ const CreateTask = () => {
           </Select>
           </FormControl>
           <Stack direction="row" sx={{cursor:"pointer"}}>
-            <Chip  label="Not Started"/>
+            <Chip label="Not Started"/>
             <Chip label="In Progress"/>
             <Chip label="Blocked"/>
             <Chip label="On Hold"/>
