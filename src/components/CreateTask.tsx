@@ -43,6 +43,7 @@ const CreateTask = () => {
     date,
     priority,
   }
+
   dispatch(addTaskAction(newTask))
 
   setTitle("")

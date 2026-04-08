@@ -23,7 +23,9 @@ const taskSlice = createSlice({
         console.log(state.open)
     },
     addTaskAction:(state,action) => {
+
       state.addNewTaskArr.push(action.payload)
+
     },
     deleteAction:(state,action) => {
       state.addNewTaskArr = state.addNewTaskArr.filter((task) => {
