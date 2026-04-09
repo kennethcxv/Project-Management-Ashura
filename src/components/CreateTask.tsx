@@ -14,7 +14,8 @@ import InputLabel from "@mui/material/InputLabel";
 import FormControl from "@mui/material/FormControl";
 import Stack from "@mui/material/Stack";
 import Chip from "@mui/material/Chip";
-
+import type {Tasks} from "../pages/Tasks";
+ 
 const CreateTask = () => {
   const open = useSelector((state) => state.taskSlice.open);
   const addNewTaskArr = useSelector((state) => state.taskSlice.addNewTaskArr)
@@ -32,7 +33,7 @@ const CreateTask = () => {
     priority:""
   })
 
-  const [formErrors,setFormErrors] = useState({})
+  const [formErrors,setFormErrors] = useState<Tasks>({})
 
   const dispatch = useDispatch();
 
@@ -44,6 +45,9 @@ const CreateTask = () => {
   const handleTaskSubmit = () => {
     if(tasks.title === ""){
       setFormErrors({...formErrors,title:"Please enter a title"})
+    }
+    if(tasks.description.length < 10){
+      setFormErrors({...formErrors,description:"Please enter a description"})
     }
 
 
@@ -86,7 +90,7 @@ const CreateTask = () => {
             onChange={(e) => setTasks({...tasks,title:e.target.value})}
           />
           {
-            formErrors.title && <p className="text-red-700">{formErrors.title}</p>
+            formErrors.title && <p className="text-red-700">{formErrors.title}</p> 
           }
 
           <TextField
@@ -95,6 +99,9 @@ const CreateTask = () => {
             value={tasks.description}
             onChange={(e) => setTasks({...tasks,description:e.target.value})}
           />
+          {
+            formErrors.description && <p className="text-red-700">{formErrors.description}</p>
+          }
           <TextField
             sx={{ width: "500px" }}
             placeholder="Add a SubTask"
