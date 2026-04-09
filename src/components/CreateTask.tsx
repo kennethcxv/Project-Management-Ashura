@@ -19,12 +19,19 @@ const CreateTask = () => {
   const open = useSelector((state) => state.taskSlice.open);
   const addNewTaskArr = useSelector((state) => state.taskSlice.addNewTaskArr)
   const commentArray = useSelector((state) => state.taskSlice.commentArray)
-  const [title,setTitle] = useState("")
-  const [description,setDescription] = useState("")
+
   const [comment,setComment] = useState("")
-  const [subTask,setSubTask] = useState("")
-  const [date,setDate] = useState("")
   const [priority,setPriority] = useState("")
+
+  const [tasks,setTasks] = useState({
+    id:uuidv4,
+    title:"",
+    description:"",
+    subTask:"",
+    date:"",
+    priority:""
+  })
+
   const [formErrors,setFormErrors] = useState({})
 
   const dispatch = useDispatch();
@@ -35,26 +42,13 @@ const CreateTask = () => {
   };
 
   const handleTaskSubmit = () => {
-    if(title === ""){
+    if(tasks.title === ""){
       setFormErrors({...formErrors,title:"Please enter a title"})
     }
 
-    const newTask = {
-    id:uuidv4(),
-    title,
-    description,
-    subTask,
-    date,
-    priority,
-  }
 
-  dispatch(addTaskAction(newTask))
+  dispatch(addTaskAction(tasks))
 
-  setTitle("")
-    setDescription("")
-    setSubTask("")
-    setDate("")
-    setPriority("")
   }
   const handleCreateComment = () => {
     dispatch(addCommentAction(comment))
@@ -88,8 +82,8 @@ const CreateTask = () => {
           <TextField
             sx={{ width: "500px", justifyContent: "center" }}
             placeholder="Add a title"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
+            value={tasks.title}
+            onChange={(e) => setTasks({...tasks,title:e.target.value})}
           />
           {
             formErrors.title && <p className="text-red-700">{formErrors.title}</p>
@@ -98,19 +92,19 @@ const CreateTask = () => {
           <TextField
             sx={{ width: "500px" }}
             placeholder="Add a Description"
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
+            value={tasks.description}
+            onChange={(e) => setTasks({...tasks,description:e.target.value})}
           />
           <TextField
             sx={{ width: "500px" }}
             placeholder="Add a SubTask"
-            value={subTask}
-            onChange={(e) => setSubTask(e.target.value)}
+            value={tasks.subTask}
+            onChange={(e) => setTasks({...tasks,subTask:e.target.value})}
           />
-          <TextField type="date" onChange={(e) => setDate(e.target.value)}/>
+          <TextField type="date" value={tasks.date} onChange={(e) => setTasks({...tasks,date:e.target.value})} />
           <FormControl fullWidth>
           <InputLabel id="demo-simple-select-label">Priority</InputLabel>
-          <Select id="demo-simple-select-label" labelId="demo-simple-select-label" label ="priority" value={priority} onChange={(e) => setPriority(e.target.value)}>          
+          <Select id="demo-simple-select-label" labelId="demo-simple-select-label" label ="priority" value={tasks.priority} onChange={(e) => setTasks({...tasks,priority:e.target.value})}>          
             <MenuItem value="priority 1">Priority 1</MenuItem>
             <MenuItem value="priority 2">Priority 2</MenuItem>
             <MenuItem value="priority 3">Priority 3</MenuItem>
