@@ -25,15 +25,20 @@ const CreateTask = () => {
   const [subTask,setSubTask] = useState("")
   const [date,setDate] = useState("")
   const [priority,setPriority] = useState("")
-  const [formErrors,setFormErros] = useState("")
+  const [formErrors,setFormErrors] = useState({})
 
   const dispatch = useDispatch();
 
   const handleCloseAction = () => {
     dispatch(closeAction());
+    setFormErrors({})
   };
 
   const handleTaskSubmit = () => {
+    if(title === ""){
+      setFormErrors({...formErrors,title:"Please enter a title"})
+    }
+
     const newTask = {
     id:uuidv4(),
     title,
@@ -86,6 +91,10 @@ const CreateTask = () => {
             value={title}
             onChange={(e) => setTitle(e.target.value)}
           />
+          {
+            formErrors.title && <p className="text-red-700">{formErrors.title}</p>
+          }
+
           <TextField
             sx={{ width: "500px" }}
             placeholder="Add a Description"

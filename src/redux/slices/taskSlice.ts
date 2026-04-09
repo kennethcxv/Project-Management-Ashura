@@ -20,10 +20,10 @@ const taskSlice = createSlice({
     },
     closeAction:(state) => {
         state.open = false
+        
         console.log(state.open)
     },
     addTaskAction:(state,action) => {
-
       state.addNewTaskArr.push(action.payload)
 
     },
