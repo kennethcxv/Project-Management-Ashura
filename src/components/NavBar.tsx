@@ -15,8 +15,13 @@ import MenuItem from "@mui/material/MenuItem";
 // Lets have the logo on the left side. Then lets have a search bar, add Task, filter tasks on the right
 
 const NavBar = () => {
-  const [anchorEl, setAnchorEl] = useState(null);
+
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+
+  // Anchor element is like a refrence point from where your dropdown will open
   const open = Boolean(anchorEl);
+  console.log("This is anchr",anchorEl)
+  console.log("this is open", open)
 
   const dispatch = useDispatch();
   const handleClick = () => {
@@ -24,7 +29,14 @@ const NavBar = () => {
   };
 
   const handleOpenFilter = (event) => {
-    setAnchorEl(event.currentTarget);
+    console.log(event)
+    
+    if(anchorEl){
+      setAnchorEl(null)
+    }
+    else{
+      setAnchorEl(event.currentTarget);
+    }
   };
 
   return (
@@ -50,20 +62,10 @@ const NavBar = () => {
             size="large"
             startIcon={<SortOutlinedIcon />}
             onClick={handleOpenFilter}
-            
           >
             <Menu
               anchorEl={anchorEl}
               open={open}
-              anchorOrigin={{
-                vertical: "bottom",
-                horizontal: "right",
-              }}
-              transformOrigin={{
-                vertical: "top",
-                horizontal: "right",
-              }}
-              sx={{width:"500px", height:"500px"}}
             >
               <MenuItem>Priority</MenuItem>
               <MenuItem>Due Date</MenuItem>

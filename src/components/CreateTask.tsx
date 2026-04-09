@@ -25,14 +25,13 @@ const CreateTask = () => {
   const [subTask,setSubTask] = useState("")
   const [date,setDate] = useState("")
   const [priority,setPriority] = useState("")
+  const [formErrors,setFormErros] = useState("")
 
   const dispatch = useDispatch();
 
   const handleCloseAction = () => {
     dispatch(closeAction());
   };
-
-
 
   const handleTaskSubmit = () => {
     const newTask = {
